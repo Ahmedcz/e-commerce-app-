@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Cart from './pages/Cart';
+import Home from './pages/Home';
+import ProductDetails from './pages/ProductDetails';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+
+{/*const Root = () => {
+  return (
+    <>
+    <Link to="/">Home</Link>
+    <Link to="/cart">Cart</Link>
+    <Outlet />
+  
+    </>
+  );
+}; Root is not necessary */}
 
 function App() {
+  const [ cartItems, setCartItems ] = useState([]);
+
+  const addToCart = item => {
+    setCartItems([...cartItems, item])
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+  <Router>
+    <Routes>
+        <Route>
+          <Route path="/home" element={<Home />} />
+          <Route path="/cart" element={<Cart cartItems={cartItems}/>} />
+          <Route path="/product-details/:id" element={<ProductDetails addToCart={addToCart} />} />
+          <Route path="*" element={<Navigate to ="/home" replace />} />
+        </Route>
+      </Routes>
+  </Router>
+
   );
 }
-
 export default App;
